@@ -1,0 +1,66 @@
+﻿
+@model IEnumerable<BlobStorage_File_RtraiveUploadDelete.Models.BlobStorage>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2 class="text-uppercase text-center text-primary">List of blob files</h2>
+
+<div class="text-end">
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <i class="fa-solid fa-circle-plus"></i> Upload New File
+    </button>
+</div>
+<br/>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" enctype="multipart/form-data" asp-controller="BlobStorage" asp-action="Upload">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Blob Storage File Upload</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label> Select File </label>
+                                <input class="form-control" name="files" multiple="multiple" type="file" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <input class="btn btn-success" type="submit" value="Upload" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<table class="table table-bordered">
+    <thead>
+        <tr class="text-center">
+            <th>FileName</th>
+            <th>FileSize</th>
+            <th>Modified</th>
+            <th>Action's</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var data in Model)
+        {
+            <tr class ="text-center">
+                <td>@data.FileName</td>
+                <td>@data.FileSize</td>
+                <td>@data.Modified</td>
+                <td> <a href="/BlobStorage/Delete?blobName=@data.FileName" class="btn btn-danger"><i class="bi bi-trash3-fill"></i> Delete</a> |
+                    <a href="/BlobStorage/Download?blobName=@data.FileName" class="btn btn-primary"><i class="bi bi-arrow-down-circle-fill"></i> Download</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
